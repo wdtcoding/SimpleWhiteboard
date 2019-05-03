@@ -1,0 +1,6 @@
+version: "Apple Swift version 4.2.1 (swiftlang-1000.11.42 clang-1000.11.45.1)"
+options: "87c0fb2fd1c7ba26aa683f3dabcd19d2"
+build_time: [1556799993, 651450000]
+inputs:
+  "/Users/carsonli/CarsonGithub/Simple Whiteboard/Simple Whiteboard/MainViewController.swift": [1556789933, 0]
+  "/Users/carsonli/CarsonGithub/Simple Whiteboard/Simple Whiteboard/AppDelegate.swift": [1556780530, 0]
