@@ -26,7 +26,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var brushWidthLabel: UILabel!
     
     var mouseSwiped : Bool = false
-    var eraserEnabled : Bool = false
     var lastPoint : CGPoint!
     
     var brushWidth : Int = 1
@@ -37,9 +36,13 @@ class MainViewController: UIViewController {
     
     var maxBrushValue : Int = 10
     var minBrushValue : Int = 1
+    var activeButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //set default color to black
+        self.activeButton = self.blackColorButton
+        self.updateColorsAndButtons(redValue: 0.0, greenValue: 0.0, blueValue: 0.0)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -74,7 +77,7 @@ class MainViewController: UIViewController {
         
         if let context = UIGraphicsGetCurrentContext() {
             context.setLineCap(CGLineCap.round)
-            context.setLineWidth(CGFloat(integerLiteral: self.eraserEnabled ? self.eraserBrushWidth : self.brushWidth))
+            context.setLineWidth(CGFloat(integerLiteral: self.activeButton == self.eraserColorButton ? self.eraserBrushWidth : self.brushWidth))
             context.setStrokeColor(red: self.redValue, green: self.greenValue, blue: self.blueValue, alpha: 1.0)
             context.setBlendMode(CGBlendMode.normal)
             
@@ -115,31 +118,35 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func blackColorPressed(_ sender: Any) {
-        self.eraserEnabled = false
-        self.redValue = 0.0
-        self.greenValue = 0.0
-        self.blueValue = 0.0
+        self.activeButton = self.blackColorButton
+        self.updateColorsAndButtons(redValue: 0.0, greenValue: 0.0, blueValue: 0.0)
     }
     
     @IBAction func greenColorPressed(_ sender: Any) {
-        self.eraserEnabled = false
-        self.redValue = 35.0 / 255.0
-        self.greenValue = 165.0 / 255.0
-        self.blueValue = 80.0 / 255.0
+        self.activeButton = self.greenColorButton
+        self.updateColorsAndButtons(redValue: 35.0/255.0, greenValue: 165.0/255.0, blueValue: 80.0/255.0)
     }
     
     @IBAction func blueColorPressed(_ sender: Any) {
-        self.eraserEnabled = false
-        self.redValue = 0.0 / 255.0
-        self.greenValue = 122.0 / 255.0
-        self.blueValue = 255.0 / 255.0
+        self.activeButton = self.blueColorButton
+        self.updateColorsAndButtons(redValue: 0.0/255.0, greenValue: 122.0/255.0, blueValue: 255.0/255.0)
     }
     
     @IBAction func eraserButtonPressed(_ sender: Any) {
-        self.eraserEnabled = true
-        self.redValue = 1
-        self.greenValue = 1
-        self.blueValue = 1
+        self.activeButton = self.eraserColorButton
+        self.updateColorsAndButtons(redValue: 1, greenValue: 1, blueValue: 1)
+    }
+    
+    private func updateColorsAndButtons(redValue: CGFloat, greenValue: CGFloat, blueValue: CGFloat){
+        self.redValue = redValue
+        self.greenValue = greenValue
+        self.blueValue = blueValue
+        let buttons = [self.blackColorButton, self.blueColorButton, self.greenColorButton]
+        for button in buttons {
+            button?.layer.borderWidth = self.activeButton == button ? 3.0 : 0.0
+            button?.layer.borderColor = UIColor.orange.cgColor
+            button?.layer.cornerRadius = 2.5
+        }
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
