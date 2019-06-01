@@ -125,8 +125,8 @@
                                     <action selector="blackColorPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dNm-6U-fDX"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFh-dS-JgW">
-                                <rect key="frame" x="891" y="729" width="39" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFh-dS-JgW">
+                                <rect key="frame" x="881" y="729" width="39" height="34"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
