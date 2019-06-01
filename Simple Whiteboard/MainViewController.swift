@@ -30,6 +30,7 @@ class MainViewController: UIViewController {
     
     var brushWidth : Int = 1
     var eraserBrushWidth : Int = 20
+    
     var redValue : CGFloat = 0
     var blueValue : CGFloat = 0
     var greenValue : CGFloat = 0
@@ -98,11 +99,7 @@ class MainViewController: UIViewController {
         self.drawImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
     }
-    
-    @IBAction func clearButtonPressed(_ sender: Any) {
-        self.drawImageView.image = nil
-    }
-    
+
     @IBAction func subtractButtonPressed(_ sender: Any) {
         if self.brushWidth != self.minBrushValue {
             self.brushWidth -= 1
@@ -147,6 +144,20 @@ class MainViewController: UIViewController {
             button?.layer.borderColor = UIColor.orange.cgColor
             button?.layer.cornerRadius = 2.5
         }
+    }
+    
+    
+    @IBAction func clearButtonPressed(_ sender: Any) {
+        let dialog = UIAlertController(title: "Confirm", message: "Clear the screen?", preferredStyle: .alert)
+        let yesButton = UIAlertAction(title: "Yes", style: .default, handler: { (action) -> Void in
+            self.drawImageView.image = nil
+        })
+        let noButton = UIAlertAction(title: "No", style: .cancel) { (action) -> Void in}
+    
+        dialog.addAction(yesButton)
+        dialog.addAction(noButton)
+        
+        self.present(dialog, animated: true, completion: nil)
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
