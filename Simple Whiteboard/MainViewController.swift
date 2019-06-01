@@ -41,8 +41,13 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //set default color to black
         self.activeButton = self.blackColorButton
+        self.brushWidth = UserDefaults.standard.integer(forKey: "defaultWidth")
+        if (self.brushWidth == 0 ){
+            self.brushWidth = 1
+        }
+        
+        self.updateWidthInfo()
         self.updateColorsAndButtons(redValue: 0.0, greenValue: 0.0, blueValue: 0.0)
     }
 
@@ -103,15 +108,21 @@ class MainViewController: UIViewController {
     @IBAction func subtractButtonPressed(_ sender: Any) {
         if self.brushWidth != self.minBrushValue {
             self.brushWidth -= 1
-            self.brushWidthLabel.text = String(format: "%d",self.brushWidth)
+            self.updateWidthInfo()
         }
     }
 
     @IBAction func increaseButtonPressed(_ sender: Any) {
         if self.brushWidth != self.maxBrushValue {
             self.brushWidth += 1
-            self.brushWidthLabel.text = String(format: "%d",self.brushWidth)
+            self.updateWidthInfo()
         }
+    }
+    
+    private func updateWidthInfo() {
+        self.brushWidthLabel.text = String(format: "%d",self.brushWidth)
+        UserDefaults.standard.set(self.brushWidth, forKey: "defaultWidth")
+        UserDefaults.standard.synchronize()
     }
     
     @IBAction func blackColorPressed(_ sender: Any) {
@@ -145,7 +156,6 @@ class MainViewController: UIViewController {
             button?.layer.cornerRadius = 2.5
         }
     }
-    
     
     @IBAction func clearButtonPressed(_ sender: Any) {
         let dialog = UIAlertController(title: "Confirm", message: "Clear the screen?", preferredStyle: .alert)
