@@ -78,11 +78,13 @@ class MainViewController: UIViewController {
     
     private func updateDrawImageView (currentPoint: CGPoint?)
     {
-        UIGraphicsBeginImageContext(self.drawImageView.frame.size)
+        UIGraphicsBeginImageContextWithOptions(self.drawImageView.frame.size, false, 0.0)
+        //UIGraphicsBeginImageContext(self.drawImageView.frame.size)
         self.drawImageView.image?.draw(in: CGRect.init(x: 0, y: 0, width: self.drawImageView.frame.size.width, height: self.drawImageView.frame.size.height))
         
         if let context = UIGraphicsGetCurrentContext() {
             context.setLineCap(CGLineCap.round)
+            context.setAllowsAntialiasing(true)
             context.setLineWidth(CGFloat(integerLiteral: self.activeButton == self.eraserColorButton ? self.eraserBrushWidth : self.brushWidth))
             context.setStrokeColor(red: self.redValue, green: self.greenValue, blue: self.blueValue, alpha: 1.0)
             context.setBlendMode(CGBlendMode.normal)
@@ -175,22 +177,21 @@ class MainViewController: UIViewController {
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
         }
         else{
-            let ac = UIAlertController(title: "Hey!", message: "Draw something first ;)", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
+            self.presentSingleOptionDialog(title: "Hey!", message: "Draw something first ;)", actionMessage: "OK")
         }
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
         if let error = error {
-            // we got back an error!
-            let ac = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
+            self.presentSingleOptionDialog(title: "Error", message: error.localizedDescription, actionMessage: "OK")
         } else {
-            let ac = UIAlertController(title: "Saved", message: "You did it!", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
+            self.presentSingleOptionDialog(title: "Saved", message: "You did it!", actionMessage: "OK")
         }
+    }
+    
+    private func presentSingleOptionDialog(title:String!, message: String!, actionMessage: String!) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: actionMessage, style: .default))
+        present(ac, animated: true)
     }
 }
