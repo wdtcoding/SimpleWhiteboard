@@ -79,12 +79,13 @@ class MainViewController: UIViewController {
     private func updateDrawImageView (currentPoint: CGPoint?)
     {
         UIGraphicsBeginImageContextWithOptions(self.drawImageView.frame.size, false, 0.0)
-        //UIGraphicsBeginImageContext(self.drawImageView.frame.size)
-        self.drawImageView.image?.draw(in: CGRect.init(x: 0, y: 0, width: self.drawImageView.frame.size.width, height: self.drawImageView.frame.size.height))
+
+        self.drawImageView.image?.draw(in: CGRect.init(x: 0, y: 0,
+                                                       width: self.drawImageView.frame.size.width,
+                                                       height: self.drawImageView.frame.size.height))
         
         if let context = UIGraphicsGetCurrentContext() {
             context.setLineCap(CGLineCap.round)
-            context.setAllowsAntialiasing(true)
             context.setLineWidth(CGFloat(integerLiteral: self.activeButton == self.eraserColorButton ? self.eraserBrushWidth : self.brushWidth))
             context.setStrokeColor(red: self.redValue, green: self.greenValue, blue: self.blueValue, alpha: 1.0)
             context.setBlendMode(CGBlendMode.normal)
